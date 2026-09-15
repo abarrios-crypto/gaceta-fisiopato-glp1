@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Observador Clínico — Edición Especial Fisiopatología</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,900;1,9..144,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F1ECDD;
+    --paper-dark:#E4DAC0;
+    --paper-shadow:#c9bd9c;
+    --ink:#221D16;
+    --ink-soft:#54493A;
+    --red:#7A1F2B;
+    --red-dark:#591620;
+    --gold:#A8842E;
+    --white:#FFFDF8;
+    --lab-bg:#132523;
+    --lab-bg2:#0C1917;
+    --teal:#3FA79A;
+    --teal-soft:#9FD9CE;
+    --lab-ink:#EAF3F1;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper-shadow);
+    font-family:'Lora',serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{font-family:'Fraunces',serif;}
+
+  /* ============ INTRO STRIP ============ */
+  .intro-strip{
+    max-width:900px;margin:0 auto;padding:28px 20px 6px;
+    text-align:center;color:#2b2b2b;
+  }
+  .intro-strip p{font-size:.95rem;line-height:1.5;color:#3a352b;}
+
+  /* ============ BOOK / FLIPBOOK ============ */
+  .book-wrap{
+    max-width:1000px;margin:10px auto 40px;padding:0 16px 40px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .book{
+    position:relative;width:100%;max-width:820px;
+    aspect-ratio:3/4;
+    perspective:2600px;
+  }
+  @media (max-width:600px){
+    .book{aspect-ratio:3/4.6;}
+  }
+  .page{
+    position:absolute;inset:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(ellipse at top left, rgba(0,0,0,.05), transparent 55%),
+      radial-gradient(ellipse at bottom right, rgba(0,0,0,.05), transparent 55%);
+    border:1px solid #d9cca8;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+    transform-origin:left center;
+    transition:transform 0.85s cubic-bezier(.6,0,.4,1);
+    transform-style:preserve-3d;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .page.flipped{transform:rotateY(-178deg);}
+  .page-inner{
+    flex:1;overflow-y:auto;padding:28px 30px 20px;
+    backface-visibility:hidden;
+  }
+  .page-inner::-webkit-scrollbar{width:6px;}
+  .page-inner::-webkit-scrollbar-thumb{background:var(--paper-shadow);border-radius:4px;}
+
+  .folio{
+    display:flex;justify-content:space-between;align-items:center;
+    font-family:'Special Elite',monospace;font-size:.68rem;letter-spacing:.05em;
+    color:var(--ink-soft);border-top:1px solid #cbbe9b;padding:6px 30px;
+  }
+
+  .masthead{
+    text-align:center;border-bottom:4px double var(--ink);padding-bottom:10px;margin-bottom:14px;
+  }
+  .masthead .kicker{
+    font-family:'Special Elite',monospace;font-size:.7rem;letter-spacing:.12em;color:var(--red);
+    display:flex;justify-content:space-between;border-bottom:1px solid var(--ink);padding-bottom:6px;margin-bottom:10px;
+  }
+  .masthead h1{
+    font-size:2.5rem;font-weight:900;margin:4px 0;letter-spacing:.01em;color:var(--ink);
+  }
+  @media (max-width:600px){.masthead h1{font-size:1.7rem;}}
+  .masthead .tagline{font-style:italic;color:var(--ink-soft);font-size:.85rem;}
+
+  .headline{font-size:1.55rem;font-weight:900;line-height:1.15;margin:6px 0 4px;color:var(--ink);}
+  .deck{font-size:1rem;font-style:italic;color:var(--ink-soft);border-left:3px solid var(--red);padding-left:10px;margin:8px 0 14px;}
+  .byline{font-family:'Special Elite',monospace;font-size:.72rem;color:var(--ink-soft);letter-spacing:.04em;margin-bottom:10px;}
+
+  .cols{column-count:1;column-gap:24px;text-align:justify;font-size:.94rem;line-height:1.55;}
+  @media (min-width:520px){.cols.two{column-count:2;}}
+  .cols p{margin:0 0 10px;}
+  .cols p:first-of-type::first-letter{
+    font-family:'Fraunces',serif;font-weight:900;font-size:3.1rem;float:left;line-height:.8;
+    padding:4px 6px 0 0;color:var(--red);
+  }
+
+  .pullquote{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:600;font-size:1.15rem;
+    color:var(--red-dark);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);
+    padding:10px 6px;margin:14px 0;text-align:center;break-inside:avoid;
+  }
+
+  .box{
+    background:var(--paper-dark);border:1px solid #cbbe9b;padding:12px 14px;margin:12px 0;
+    break-inside:avoid;font-size:.86rem;
+  }
+  .box h3{font-size:.9rem;margin:0 0 6px;text-transform:none;color:var(--red-dark);border-bottom:1px solid var(--ink-soft);padding-bottom:4px;}
+  .box ul{margin:6px 0 0;padding-left:18px;}
+  .box li{margin-bottom:4px;}
+
+  /* image placeholder */
+  .img-slot{margin:10px 0 16px;break-inside:avoid;}
+  .img-slot img{width:100%;display:block;border:1px solid var(--ink);filter:grayscale(15%) sepia(8%);}
+  .caption{font-size:.72rem;font-style:italic;color:var(--ink-soft);text-align:center;margin-top:4px;}
+
+  .case-table{margin:16px 0;}
+  .case-table .th-row{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;border-bottom:2px solid var(--ink);padding-bottom:6px;}
+  .case-table .th-row span{
+    font-family:'Special Elite',monospace;font-size:.68rem;letter-spacing:.08em;color:var(--red-dark);
+  }
+  .case-table .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;}
+  .case-table .cell{padding:11px 0;border-top:1px solid #cbbe9b;font-size:.83rem;line-height:1.45;}
+  .case-table .cell:nth-child(-n+2){border-top:none;}
+  .case-table .cell strong{display:block;color:var(--red-dark);font-family:'Fraunces',serif;font-weight:600;font-size:.9rem;margin-bottom:3px;}
+  @media (max-width:560px){
+    .case-table .th-row, .case-table .grid{grid-template-columns:1fr;}
+    .case-table .cell{border-top:1px solid #cbbe9b !important;}
+  }
+
+  .cover-hero .headline{font-size:2.1rem;text-align:center;}
+  @media (max-width:600px){.cover-hero .headline{font-size:1.5rem;}}
+  .cover-hero .deck{text-align:center;border-left:none;border-top:1px solid var(--ink-soft);border-bottom:1px solid var(--ink-soft);padding:8px 0;}
+
+  .colophon{font-size:.85rem;line-height:1.6;}
+  .colophon h3{color:var(--red-dark);font-size:1rem;border-bottom:1px solid var(--ink);padding-bottom:4px;}
+
+  /* nav controls */
+  .book-nav{display:flex;align-items:center;gap:16px;margin-top:16px;}
+  .book-nav button{
+    font-family:'Special Elite',monospace;background:var(--ink);color:var(--white);border:none;
+    padding:9px 18px;font-size:.8rem;letter-spacing:.05em;cursor:pointer;transition:background .2s;
+  }
+  .book-nav button:hover:not(:disabled){background:var(--red);}
+  .book-nav button:disabled{opacity:.35;cursor:default;}
+  .book-nav .pageno{font-family:'Special Elite',monospace;font-size:.78rem;color:#2b2b2b;}
+
+  .dots{display:flex;gap:6px;margin-top:8px;}
+  .dots span{width:7px;height:7px;border-radius:50%;background:#8b7f5f;cursor:pointer;}
+  .dots span.active{background:var(--red);}
+
+</style>
+<body>
+
+<div class="intro-strip">
+  <p>Pasa las páginas de este dossier como si fuera un periódico impreso.</p>
+</div>
+
+<div class="book-wrap">
+  <div class="book" id="book">
+
+    <!-- PAGE 1: PORTADA -->
+    <div class="page" style="z-index:16">
+      <div class="page-inner cover-hero">
+        <div class="masthead">
+          <div class="kicker"><span>UNIDAD DE APRENDIZAJE</span><span>FISIOPATOLOGÍA — UAS</span></div>
+          <h1>EL OBSERVADOR CLÍNICO</h1>
+          <div class="tagline">Edición especial · Adaptación Celular y Homeostasis</div>
+        </div>
+
+        <p class="headline">CUANDO EL CUERPO ENTRA EN MODO DE EMERGENCIA</p>
+        <p class="deck">Dejar de comer no es un interruptor simple: es una señal que reorganiza, tejido por tejido, cómo el cuerpo reparte lo poco que tiene.</p>
+        <p class="byline">GUÍA INTRODUCTORIA — DOSSIER CIENTÍFICO</p>
+
+        <div class="cols">
+          <p>El cuerpo humano vive en un estado de equilibrio constante llamado <strong>homeostasis</strong>: cada tejido recibe la energía y los nutrientes que necesita para mantenerse, repararse y funcionar. Ese equilibrio depende de un flujo continuo de alimento.</p>
+          <p>Cuando ese flujo se interrumpe de golpe —por ejemplo, por un fármaco que apaga el apetito de forma muy potente— el cuerpo no simplemente "adelgaza" de manera pareja. Entra en un estado de adaptación de emergencia: prioriza a los órganos vitales (corazón, cerebro) y empieza a sacrificar otros tejidos para conseguir energía de donde sea.</p>
+          <p>Este dossier explica, sistema por sistema, qué le pasa al músculo, a la piel y al cabello, y al cerebro cuando ocurre ese déficit calórico abrupto — y pone esa teoría a prueba con un caso clínico real.</p>
+        </div>
+      </div>
+      <div class="folio"><span>Página 1</span><span>Portada</span></div>
+    </div>
+
+    <!-- PAGE 2: INTRODUCCION A LOS AGONISTAS DE GLP-1 -->
+    <div class="page" style="z-index:15">
+      <div class="page-inner">
+        <p class="headline">GLP-1: LA HORMONA QUE LE DICE AL CUERPO CUÁNDO PARAR</p>
+        <p class="deck">Antes de examinar cómo reaccionan el músculo, la piel y el cerebro, conviene entender qué son estos fármacos y de dónde viene su efecto.</p>
+        <p class="byline">SECCIÓN PREVIA — QUÉ SON LOS AGONISTAS DE GLP-1</p>
+
+        <div class="cols two">
+          <p>Cada vez que comemos, el intestino libera de forma natural una hormona llamada GLP-1 (péptido similar al glucagón tipo 1). Su trabajo es avisarle al cerebro que ya hay suficiente comida a bordo, frenar el vaciado del estómago y ayudar al páncreas a liberar insulina en el momento adecuado: es la señal biológica de "ya estoy satisfecho".</p>
+          <p>Los <strong>agonistas de GLP-1</strong> son medicamentos diseñados para imitar esa misma hormona, de forma más potente y duradera. Se desarrollaron originalmente para tratar la diabetes tipo 2, pero los médicos notaron un efecto secundario muy llamativo: quienes los usaban perdían peso de manera constante. Ese hallazgo abrió la puerta a su uso masivo para el sobrepeso y la obesidad.</p>
+          <p>Existen distintas versiones —inyección semanal, pastilla diaria— y cada una tiene su propia molécula y su propio perfil de estudios clínicos, pero todas comparten el mismo principio de fondo: imitar a GLP-1 para apagar el apetito.</p>
+        </div>
+
+        <div class="img-slot">
+          <img src="fig1-portada.png" alt="Publicidad de un agonista de GLP-1 con cifras de eficacia" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <div class="img-placeholder" style="display:none">
+            <span class="ph-icon">🖼️</span>
+            <p><strong>Imagen a usar:</strong> el material publicitario del fármaco (el mismo que se usó en la gaceta de Patología Clínica) que muestra la cifra de "20% de los pacientes perdió el 20%".</p>
+            <p class="ph-instructions">Guarda esa imagen con el nombre exacto <code>fig1-portada.png</code> en la misma carpeta que este archivo HTML.</p>
+          </div>
+          <p class="caption">Fig. 1 — Material publicitario de un agonista de GLP-1 aprobado para sobrepeso y obesidad.</p>
+        </div>
+
+        <div class="box">
+          <h3>Para entender el resto del dossier</h3>
+          <ul>
+            <li>No son "quemadores de grasa": actúan sobre el apetito y la digestión, no sobre el tejido graso directamente.</li>
+            <li>Requieren prescripción y seguimiento médico, no son para perder unos kilos por estética sin supervisión.</li>
+            <li>El efecto que produce el fármaco —dejar de comer casi por completo— es precisamente lo que dispara los mecanismos fisiopatológicos que revisamos a continuación.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="folio"><span>Página 2</span><span>El Observador Clínico</span></div>
+    </div>
+
+    <!-- PAGE 3: SARCOPENIA -->
+    <div class="page" style="z-index:14">
+      <div class="page-inner">
+        <p class="headline">EL MÚSCULO, LA PRIMERA RESERVA QUE SE SACRIFICA</p>
+        <p class="deck">Hasta el 40% del peso perdido con estos fármacos puede ser músculo, no grasa.</p>
+        <p class="byline">SECCIÓN A — FISIOPATOLOGÍA DE LA SARCOPENIA</p>
+
+        <div class="cols two">
+          <p>Los agonistas de GLP-1 retrasan el vaciamiento del estómago y envían al cerebro una señal de saciedad muy potente. El resultado práctico es que la persona deja de comer adecuadamente, lo que provoca un <strong>déficit calórico abrupto y extremo</strong>.</p>
+          <p>El tejido muscular necesita dos estímulos para mantenerse: un aporte constante de aminoácidos —las proteínas de la dieta— y estímulo mecánico, es decir, ejercicio de fuerza contra resistencia. Cuando ambos faltan a la vez, el músculo deja de tener motivos biológicos para conservarse.</p>
+          <p>Sin energía externa suficiente, el organismo entra en un estado de emergencia energética y activa mecanismos catabólicos: degrada sus propias proteínas musculares para obtener aminoácidos que pueda usar como combustible.</p>
+        </div>
+
+        <p class="pullquote">Hasta un 30–40% del peso perdido puede ser masa muscular magra, no grasa.</p>
+
+        <div class="box">
+          <h3>Por qué esto importa a largo plazo</h3>
+          <ul>
+            <li>El músculo es uno de los principales motores de la tasa metabólica basal.</li>
+            <li>Perder masa muscular reduce esa tasa, haciendo más fácil recuperar peso después.</li>
+            <li>Sin aporte proteico ni ejercicio de fuerza, ese proceso catabólico no tiene freno.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="folio"><span>Página 3</span><span>El Observador Clínico</span></div>
+    </div>
+
+    <!-- PAGE 4: PIEL Y CABELLO -->
+    <div class="page" style="z-index:13">
+      <div class="page-inner">
+        <p class="headline">CUANDO EL CUERPO RACIONA: LA PIEL Y EL CABELLO PASAN A SEGUNDO PLANO</p>
+        <p class="deck">Ante la escasez, el organismo decide qué tejidos merecen los nutrientes que quedan — y el cabello no está en la lista de prioridades.</p>
+        <p class="byline">SECCIÓN B — CICLO FOLICULAR Y MATRIZ DE LA PIEL</p>
+
+        <div class="cols two">
+          <p>El cabello y la piel son tejidos de altísimo recambio celular: se renuevan constantemente, y para hacerlo dependen de un flujo continuo de micronutrientes y proteínas. Cuando ese flujo se corta, son de los primeros en notarlo.</p>
+          <p>Ante la desnutrición clínica inducida por la falta de apetito, el organismo prioriza los nutrientes disponibles para los órganos vitales —corazón, cerebro— y le retira el apoyo a tejidos que considera "prescindibles" a corto plazo, como el folículo piloso.</p>
+          <p>El cuerpo interpreta la pérdida acelerada de peso como un estado de shock o estrés biológico. Esa señal de alarma empuja a los folículos capilares a entrar prematuramente en su fase de caída —la <strong>fase telógena</strong>— generando alopecia. En paralelo, la piel pierde turgencia y colágeno por la falta de sustratos proteicos para sintetizarlos.</p>
+        </div>
+
+        <div class="box">
+          <h3>Término clave</h3>
+          <p><strong>Efluvio telógeno farmacológico:</strong> caída de cabello desencadenada por un evento de estrés fisiológico agudo —en este caso, un déficit calórico extremo inducido por un fármaco— más que por un problema del propio folículo.</p>
+        </div>
+      </div>
+      <div class="folio"><span>Página 4</span><span>El Observador Clínico</span></div>
+    </div>
+
+    <!-- PAGE 5: NEUROBIOLOGIA -->
+    <div class="page" style="z-index:12">
+      <div class="page-inner">
+        <p class="headline">EL CEREBRO TAMBIÉN ESCUCHA AL FÁRMACO</p>
+        <p class="deck">El mismo receptor que apaga el apetito también toca el circuito cerebral del placer.</p>
+        <p class="byline">SECCIÓN C — NEUROBIOLOGÍA DEL HUMOR Y LA RECOMPENSA</p>
+
+        <div class="cols two">
+          <p>Los receptores de GLP-1 no están solo en el aparato digestivo: también se encuentran en regiones del sistema nervioso central vinculadas con el placer y la motivación, como el <strong>núcleo accumbens</strong> y el <strong>área tegmental ventral</strong>.</p>
+          <p>Fisiológicamente, estos fármacos amortiguan la liberación de dopamina asociada al consumo de alimentos muy palatables —grasas y azúcares—. Es, en parte, así como ayudan a controlar los antojos.</p>
+          <p>Pero ese mismo mecanismo tiene un costo: al "apagar" químicamente el circuito de recompensa para quitarle el placer a la comida, el fármaco puede generar un efecto colateral más amplio: <strong>anhedonia</strong> —incapacidad para sentir placer o motivación en actividades cotidianas—, irritabilidad crónica, apatía y alteraciones severas del humor.</p>
+        </div>
+
+        <p class="pullquote">Apagar el placer por la comida puede apagar, de paso, otras formas de disfrutar el día.</p>
+      </div>
+      <div class="folio"><span>Página 5</span><span>El Observador Clínico</span></div>
+    </div>
+
+    <!-- PAGE 6: CASO CLINICO -->
+    <div class="page" style="z-index:11">
+      <div class="page-inner">
+        <p class="headline">RETRATO DE UNA PACIENTE: EL AUGE DEL USO COSMÉTICO</p>
+        <p class="deck">La misma teoría, puesta a prueba en un caso real.</p>
+        <p class="byline">CASO CLÍNICO DE ESTUDIO</p>
+
+        <div class="box">
+          <h3>Ficha clínica rápida</h3>
+          <ul>
+            <li>Mujer, 40 años, profesionista.</li>
+            <li>Sobrepeso leve crónico; sin obesidad clínica.</li>
+            <li>Antecedente de uso consecutivo de fármacos "atajo" (topiramato y otros).</li>
+            <li>Consumo diario de bebidas de café industrializadas con jarabes y azúcares de alta palatabilidad.</li>
+            <li>Uso crónico y actual de semaglutida por prescripción particular.</li>
+          </ul>
+        </div>
+
+        <div class="cols two">
+          <p>La paciente presenta un historial de sobrepeso leve, sin cumplir criterios de obesidad clínica, y una marcada preferencia por buscar atajos farmacológicos antes que consolidar cambios estructurales en su vida diaria: ya ha probado topiramato y otras fórmulas.</p>
+          <p>Sus hábitos alimenticios incluyen desayunos frecuentes en restaurantes comerciales y el consumo diario de cafés de cadena, cargados de jarabes artificiales y azúcares formulados para generar hábito de consumo. No lleva control de sus calorías líquidas ni realiza ejercicio de fuerza.</p>
+          <p>Bajo semaglutida crónica ha bajado de peso, pero reporta exactamente los tres cuadros descritos en las páginas anteriores: sarcopenia visible, cabello quebradizo con caída constante, resequedad cutánea extrema y alteraciones anímicas —irritabilidad y apatía—.</p>
+        </div>
+
+        <p class="pullquote">Los mismos mecanismos de la teoría, en el mismo cuerpo, al mismo tiempo.</p>
+
+        <div class="case-table">
+          <div class="th-row"><span>HÁBITOS DE CONSUMO</span><span>HALLAZGOS CLÍNICOS</span></div>
+          <div class="grid">
+            <div class="cell"><strong>Desayunos frecuentes fuera</strong>Consumo habitual de alimentos en restaurantes comerciales con alto contenido de sodio, grasas trans y carbohidratos refinados.</div>
+            <div class="cell"><strong>Sarcopenia visible</strong>Desgaste y pérdida acelerada de masa muscular magra debido al déficit calórico extremo e ingesta proteica insuficiente.</div>
+            <div class="cell"><strong>Cafés de cadena diarios</strong>Ingesta constante de bebidas ultraprocesadas cargadas de jarabes artificiales y azúcares formulados para incentivar el consumo recurrente.</div>
+            <div class="cell"><strong>Alopecia y cabello quebradizo</strong>Caída constante y pérdida de densidad capilar (efluvio telógeno) provocada por el estrés metabólico y deficiencias de micronutrientes.</div>
+            <div class="cell"><strong>Sin ejercicio de fuerza</strong>Ausencia del estímulo mecánico necesario para conservar la masa muscular durante el déficit calórico.</div>
+            <div class="cell"><strong>Resequedad cutánea extrema</strong>Pérdida de elasticidad y deshidratación severa en la piel, ligada a la rápida reducción de sustratos proteicos.</div>
+            <div class="cell"><strong>Rutina hipercalórica de baja calidad</strong>Aporte continuo de energía de rápida absorción que no se traduce en nutrientes útiles para el mantenimiento tisular.</div>
+            <div class="cell"><strong>Alteraciones anímicas recurrentes</strong>Cuadros frecuentes de irritabilidad, fatiga neurológica y apatía, compatibles con el bloqueo del circuito dopaminérgico de recompensa.</div>
+          </div>
+        </div>
+      </div>
+      <div class="folio"><span>Página 6</span><span>El Observador Clínico</span></div>
+    </div>
+
+    <!-- PAGE 7: FORO DEL LECTOR -->
+    <div class="page" style="z-index:10">
+      <div class="page-inner">
+        <p class="headline">FORO DEL LECTOR: PREGUNTAS PARA EL DEBATE</p>
+        <p class="deck">Cuatro planteamientos para discutir en sesión de clase.</p>
+        <p class="byline">OPINIÓN Y ANÁLISIS</p>
+
+        <div class="cols">
+          <p><strong>1. Análisis fisiopatológico.</strong> ¿Por qué la paciente pierde músculo y cabello, y manifiesta mal humor, si el medicamento "solo es para bajar de peso"? Expliquen la interconexión entre la falta de alimentación y la respuesta adaptativa de sus tejidos.</p>
+          <p><strong>2. Manejo clínico y ética profesional.</strong> A la luz de sus hábitos dietéticos y la ausencia de cambio de estilo de vida, ¿existió un acompañamiento clínico ético y real? ¿Qué papel debió jugar un nutriólogo clínico o un psicólogo conductual antes de iniciar la vía farmacológica? ¿Qué equipo interdisciplinario sería el correcto?</p>
+          <p><strong>3. Rebote metabólico.</strong> Si la paciente suspende la semaglutida pero mantiene intactos sus hábitos de consumo, ¿qué pasará con su apetito cuando el fármaco deje de bloquear su cerebro? Con mucho menos músculo que al inicio, ¿cómo afectará esto a su homeostasis y su peso a mediano plazo?</p>
+          <p><strong>4. La "píldora mágica" y la presión social.</strong> Frente a comentarios como "dices eso porque no puedes pagarlo", ¿cómo argumentarían que el verdadero peligro no es el costo monetario, sino el costo biológico irreversible de usar un fármaco potente como un cosmético para evadir el cambio de hábitos?</p>
+        </div>
+
+        <div class="box">
+          <h3>Continúa la discusión</h3>
+          <p>Estas cuatro preguntas se debatirán en la sesión de clase con la dinámica de debate. Prepara tu postura antes de llegar.</p>
+        </div>
+      </div>
+      <div class="folio"><span>Página 7</span><span>El Observador Clínico</span></div>
+    </div>
+
+    <!-- PAGE 8: CREDITOS -->
+    <div class="page" style="z-index:9">
+      <div class="page-inner colophon">
+        <p class="headline">CRÉDITOS Y FUENTES</p>
+        <p class="byline">CONTRAPORTADA</p>
+
+        <h3>Titular de la materia</h3>
+        <p>M.C. Adriana Alicia Barrios Rodríguez</p>
+
+        <h3>Fuentes consultadas</h3>
+        <ul style="padding-left:18px;line-height:1.6;">
+          <li>Material curricular de la Unidad de Aprendizaje de Fisiopatología.</li>
+          <li>Literatura fisiológica sobre catabolismo muscular, ciclo folicular y neurobiología del sistema de recompensa dopaminérgico.</li>
+        </ul>
+
+        <div style="margin-top:28px;padding-top:14px;border-top:2px double var(--ink);text-align:center;font-family:'Special Elite',monospace;font-size:.72rem;color:var(--ink-soft);line-height:1.7;">
+          2026° | M.C. Adriana Alicia Barrios Rodríguez | Fisiopatología<br>
+          Licenciatura en Biomedicina | Facultad de Ciencias Naturales y Exactas<br>
+          Universidad Autónoma de Sinaloa
+        </div>
+      </div>
+      <div class="folio"><span>Página 8</span><span>Fin del dossier</span></div>
+    </div>
+
+  </div>
+
+
+  <div class="book-nav">
+    <button id="prevBtn">‹ Anterior</button>
+    <span class="pageno" id="pageNo">Página 1 de 6</span>
+    <button id="nextBtn">Siguiente ›</button>
+  </div>
+  <div class="dots" id="dots"></div>
+</div>
+
+<script>
+/* ================= FLIPBOOK ================= */
+(function(){
+  const pages = Array.from(document.querySelectorAll('.page'));
+  const total = pages.length;
+  let current = 0;
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageNo = document.getElementById('pageNo');
+  const dotsWrap = document.getElementById('dots');
+
+  pages.forEach((_,i)=>{
+    const d = document.createElement('span');
+    d.addEventListener('click',()=>goTo(i));
+    dotsWrap.appendChild(d);
+  });
+
+  function render(){
+    pages.forEach((p,i)=>{
+      p.classList.toggle('flipped', i < current);
+      p.style.zIndex = i < current ? (i+1) : (total - i);
+    });
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total;
+    pageNo.textContent = current >= total ? 'Fin del dossier' : `Página ${current+1} de ${total}`;
+    Array.from(dotsWrap.children).forEach((d,i)=> d.classList.toggle('active', i===Math.min(current,total-1)));
+  }
+  function goTo(i){ current = Math.max(0, Math.min(total, i)); render(); }
+  prevBtn.addEventListener('click', ()=>goTo(current-1));
+  nextBtn.addEventListener('click', ()=>goTo(current+1));
+  render();
+})();
+
+</script>
+</body>
+</html>
